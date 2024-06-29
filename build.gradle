@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.lowagie:itext:2.1.7'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    compileOnly 'org.apache.tomcat:tomcat-servlet-api:9.0.37'
+    implementation ('net.sf.jasperreports:jasperreports:6.17.0') {
+        exclude group: 'com.lowagie', module: 'itext'
+        exclude group: 'org.olap4j', module: 'olap4j'
+    }
+    implementation 'org.beanio:beanio:2.1.0'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'FlatFileGenerator'
+}

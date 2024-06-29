@@ -1,0 +1,27 @@
+<!--<beanio xmlns="http://www.beanio.org/2012/03"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.beanio.org/2012/03 ">-->
+<beanio xmlns="http://www.beanio.org/2012/03"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+    <stream name="flatFile" format="fixedlength" strict="true">
+        <record name="header" class="org.example.flatfile.Header">
+            <field name="recordType" length="1" literal="H" />
+            <field name="padding1" length="12" />
+            <field name="fileType" length="9" literal="FLAT_FILE" />
+            <field name="padding2" length="3" />
+        </record>
+        <record name="body" class="org.example.flatfile.Body">
+            <field name="padding1" length="23" />
+            <field name="referenceNo" length="14" padding=" " align="right" />
+            <field name="padding2" length="16" />
+            <field name="amount" length="16" padding=" " align="right" />
+        </record>
+        <record name="trailer" class="org.example.flatfile.Trailer">
+            <field name="recordType" length="1" literal="T" />
+            <field name="padding1" length="12" />
+            <field name="fileType" length="9" literal="FLAT_FILE" />
+            <field name="padding2" length="3" />
+        </record>
+    </stream>
+</beanio>
