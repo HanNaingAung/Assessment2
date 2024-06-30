@@ -2,25 +2,12 @@ package org.example.report;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
-import okhttp3.internal.http.HttpHeaders;
 import org.example.bean.Employee;
 import org.example.enums.ExportType;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -75,6 +62,10 @@ public class GenerateReport {
         JasperPrint jasperPrint =
                 JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
 
+        File file = new File(reportPath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         if (exportType == ExportType.PDF) {
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\employee_list_report.pdf");
@@ -83,13 +74,6 @@ public class GenerateReport {
 
             JRXlsExporter exporter = new JRXlsExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-			exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,Boolean.FALSE);
-			exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE );
-			exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE );
-			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.TRUE);
-			exporter.setParameter(JRXlsExporterParameter.IS_IGNORE_GRAPHICS,Boolean.FALSE);
-			exporter.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER,Boolean.TRUE);
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, reportPath+"\\employee_list_report.xls"); // Output file name
 			exporter.exportReport();
 

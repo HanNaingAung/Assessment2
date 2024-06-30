@@ -19,7 +19,10 @@ public class FlatFileGenerator {
 
         BeanWriter out = null;
         try {
-            out = factory.createWriter("flatFile", new File("output.txt"));
+            String filePath = "D:\\FlatFile\\output.txt";
+            File file = new File(filePath);
+            file.getParentFile().mkdirs();
+            out = factory.createWriter("flatFile", file);
 
             // Write Header
             Header header = new Header();
